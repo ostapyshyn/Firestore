@@ -1,5 +1,4 @@
 import React from 'react';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -42,10 +41,8 @@ export default function Todo({ todo, toggleComplete, handleDelete, handleEdit })
         className='list'
         onChange={handleChangeSubtitle}
       />
-      <div>
-        <button className='button-complete' onClick={() => toggleComplete(todo)}>
-          <CheckCircleIcon id='i' />
-        </button>
+      <div className='todo__actions'>
+        <input type='checkbox' className='pointer' checked={todo.completed} onChange={() => toggleComplete(todo)} />
         <button className='button-edit' onClick={() => handleEdit(todo, newTitle, newSubtitle)}>
           <EditIcon id='i' />
         </button>
