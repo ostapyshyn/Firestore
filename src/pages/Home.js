@@ -6,13 +6,13 @@ import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import Todo from '../components/Todo';
 import AddTodo from '../components/AddTodo';
 
-import { useCollection } from '../hook/useCollection';
+import { useCollection } from '../hooks/useCollection';
 
 import '../App.css';
 
 export function Home() {
   const { documents: todos } = useCollection('todos');
-  
+
   const [visible, setVisible] = React.useState(5);
 
   const handleEdit = async (todo, title, subtitle) => {

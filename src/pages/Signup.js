@@ -1,12 +1,14 @@
 import { useState } from 'react';
+import { useSignup } from '../hooks/useSignup';
 
 export function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { error, signup } = useSignup();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email, password);
+    signup(email, password);
   };
 
   return (
@@ -22,6 +24,7 @@ export function Signup() {
           <input required type='password' onChange={(e) => setPassword(e.target.value)} value={password} />
         </label>
         <button>sign up</button>
+        {error && <p>{error}</p>}
       </form>
     </div>
   );
