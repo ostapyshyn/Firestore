@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
-
+import { useState, useEffect, useRef, useContext } from 'react';
+import { SelectContext } from '../context/SelectContext';
 import { db } from '../firebase/config';
 import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 
 export const useCollection = (c, _q) => {
   const [documents, setDocuments] = useState(null);
+  const { select } = useContext(SelectContext);
 
   const q = useRef(_q).current;
 
@@ -15,7 +16,12 @@ export const useCollection = (c, _q) => {
       ref = query(ref, where(...q));
     }
 
-    const endQuery = query(ref, orderBy('title'));
+    let endQuery;
+    if (select === 'all') {
+      endQuery = query(ref, orderBy('title'));
+    } else {
+      endQuery = query(ref, orderBy('title'), where('completed', '==', select === 'complete'));
+    }
 
     const unsub = onSnapshot(endQuery, (querySnapshot) => {
       let results = [];
@@ -26,7 +32,7 @@ export const useCollection = (c, _q) => {
       setDocuments(results);
     });
     return () => unsub();
-  }, [c, q]);
+  }, [c, q, select]);
 
   return { documents };
 };

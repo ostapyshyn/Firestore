@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 import { useAuthContext } from './hooks/useAuthContext';
+import { SelectProvider } from './context/SelectContext';
 
 import { Signup } from './pages/Signup';
 import { Home } from './pages/Home';
@@ -15,16 +16,18 @@ function App() {
   return (
     <div className='App'>
       {authIsReady && (
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Layout />}>
-              <Route index element={(user && <Home />) || (!user && <Navigate to='/login' replace />)} />
-              <Route path='signup' element={(!user && <Signup />) || (user && <Navigate to='/login' replace />)} />
-              <Route path='login' element={(!user && <Login />) || (user && <Navigate to='/' replace />)} />
-              <Route path='*' element={<Notfound />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <SelectProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Layout />}>
+                <Route index element={(user && <Home />) || (!user && <Navigate to='/login' replace />)} />
+                <Route path='signup' element={(!user && <Signup />) || (user && <Navigate to='/login' replace />)} />
+                <Route path='login' element={(!user && <Login />) || (user && <Navigate to='/' replace />)} />
+                <Route path='*' element={<Notfound />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </SelectProvider>
       )}
     </div>
   );
