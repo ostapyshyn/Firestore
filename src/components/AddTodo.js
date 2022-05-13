@@ -1,10 +1,12 @@
 import React from 'react';
 import { db } from '../firebase/config';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 export default function AddTodo() {
   const [title, setTitle] = React.useState('');
   const [subtitle, setSubtitle] = React.useState('');
+  const { user } = useAuthContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -12,7 +14,9 @@ export default function AddTodo() {
       await addDoc(collection(db, 'todos'), {
         title,
         subtitle,
+        uid: user.uid,
         completed: false,
+        createdAt: serverTimestamp(),
       });
       setTitle('');
       setSubtitle('');

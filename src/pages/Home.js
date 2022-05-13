@@ -7,11 +7,13 @@ import Todo from '../components/Todo';
 import AddTodo from '../components/AddTodo';
 
 import { useCollection } from '../hooks/useCollection';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 import '../App.css';
 
 export function Home() {
-  const { documents: todos } = useCollection('todos');
+  const { user } = useAuthContext();
+  const { documents: todos } = useCollection('todos', ['uid', '==', user.uid]);
 
   const [visible, setVisible] = React.useState(5);
 
