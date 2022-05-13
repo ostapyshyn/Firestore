@@ -1,19 +1,37 @@
 import { useState } from 'react';
 import { useLogin } from '../hooks/useLogin';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '../firebase/config';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { error, login } = useLogin();
+  const { dispatch } = useAuthContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     login(email, password);
   };
 
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((res) => {
+        dispatch({ type: 'LOGIN', payload: res.user });
+        console.log(res.user.displayName);
+        console.log(res.user.email);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Login with Google</h2>
+      <button onClick={signInWithGoogle}>Click me</button>
       <form onSubmit={handleSubmit}>
         <label>
           <span>email:</span>
