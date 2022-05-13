@@ -41,7 +41,7 @@ export function Login() {
           <span>password:</span>
           <input required type='password' onChange={(e) => setPassword(e.target.value)} value={password} />
         </label>
-        <button>log in</button>
+        <button className='button'>Log in</button>
         {error && <p>{error}</p>}
       </form>
     </div>

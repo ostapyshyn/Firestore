@@ -1,6 +1,6 @@
 import React from 'react';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { BsTrash } from 'react-icons/bs';
+import { GrEdit } from 'react-icons/gr';
 
 export default function Todo({ todo, toggleComplete, handleDelete, handleEdit }) {
   const [newTitle, setNewTitle] = React.useState(todo.title);
@@ -27,27 +27,33 @@ export default function Todo({ todo, toggleComplete, handleDelete, handleEdit })
   };
   return (
     <div className='todo'>
-      <input
-        style={{ textDecoration: todo.completed && 'line-through' }}
-        type='text'
-        value={todo.title === '' ? newTitle : todo.title}
-        className='list'
-        onChange={handleChangeTitle}
-      />
-      <input
-        style={{ textDecoration: todo.completed && 'line-through' }}
-        type='text'
-        value={todo.subtitle === '' ? newSubtitle : todo.subtitle}
-        className='list'
-        onChange={handleChangeSubtitle}
-      />
+      <div className='todo__inputs'>
+        <div>
+          <input
+            style={{ textDecoration: todo.completed && 'line-through' }}
+            type='text'
+            value={todo.title === '' ? newTitle : todo.title}
+            className='list'
+            onChange={handleChangeTitle}
+          />
+        </div>
+        <div>
+          <input
+            style={{ textDecoration: todo.completed && 'line-through' }}
+            type='text'
+            value={todo.subtitle === '' ? newSubtitle : todo.subtitle}
+            className='list'
+            onChange={handleChangeSubtitle}
+          />
+        </div>
+      </div>
       <div className='todo__actions'>
         <input type='checkbox' className='pointer' checked={todo.completed} onChange={() => toggleComplete(todo)} />
         <button className='button-edit' onClick={() => handleEdit(todo, newTitle, newSubtitle)}>
-          <EditIcon id='i' />
+          <GrEdit className='icons' />
         </button>
         <button className='button-delete' onClick={() => handleDelete(todo.id)}>
-          <DeleteIcon id='i' />
+          <BsTrash className='icons' />
         </button>
       </div>
     </div>
